@@ -1,5 +1,5 @@
 import type IProjeto from '@/interfaces/IProjeto'
-import { createStore, Store } from 'vuex'
+import { createStore, Store, useStore as veuexUseStore } from 'vuex'
 import type { InjectionKey } from 'vue'
 
 interface Estado {
@@ -10,19 +10,18 @@ export const key: InjectionKey<Store<Estado>> = Symbol()
 
 export const store: Store<Estado> = createStore<Estado>({
   state: {
-    projetos: [
-      {
+    projetos: [],
+  },
+  mutations: {
+    ADICIONA_PROJETO(state: Estado, nomeProjeto: string) {
+      state.projetos.push({
         id: new Date().toISOString(),
-        nome: 'Typescript',
-      },
-      {
-        id: new Date().toISOString(),
-        nome: 'VueJS',
-      },
-      {
-        id: new Date().toISOString(),
-        nome: 'SpringBoot',
-      },
-    ],
+        nome: nomeProjeto,
+      })
+    },
   },
 })
+
+export function useStore(): Store<Estado> {
+  return veuexUseStore(key)
+}
