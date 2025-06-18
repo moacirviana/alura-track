@@ -1,26 +1,26 @@
 <template>
   <section class="projetos">
     <h1 class="title">Projetos</h1>
-    <form @submit.prevent="salvar">
-      <div class="field">
-        <label for="nomeDoProjeto" class="label"> Nome do Projeto</label>
-        <input type="text" class="input" v-model="nomeDoProjeto" id="nomeDoProjet" />
-      </div>
-      <div class="field">
-        <button class="button" type="submit">Salvar</button>
-      </div>
-    </form>
+    <router-link to="/projetos/novo" class="button is-primary">Novo Projeto</router-link>
     <table class="table is-striped is-fullwidth mt-5">
       <thead>
         <tr>
           <th>ID</th>
           <th>Nome do Projeto</th>
+          <th>menu</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="projeto in projetos" :key="projeto.id">
           <td>{{ projeto.id }}</td>
           <td>{{ projeto.nome }}</td>
+          <td>
+            <router-link :to="`/projetos/${projeto.id}`" class="button">
+              <span class="icon is-small">
+                <i class="fas fa-pencil-alt"></i>
+              </span>
+            </router-link>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -33,20 +33,10 @@ import { useStore } from '@/store'
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Projetos',
-  data() {
-    return {
-      nomeDoProjeto: '',
-    }
-  },
-  methods: {
-    salvar() {
-      this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
-      this.nomeDoProjeto = ''
-    },
-  },
+
   setup() {
     const store = useStore()
-    return { store, projetos: computed(() => store.state.projetos) }
+    return { projetos: computed(() => store.state.projetos) }
   },
 })
 </script>
