@@ -33,6 +33,9 @@ import { computed, defineComponent } from 'vue'
 import TemporiZador from './TemporiZador.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store'
+import { store } from '@/store'
+import { TipoNotificacao } from '@/interfaces/INotificacao'
+import { notificacaoMixin } from '@/mixins/notificar'
 
 export default defineComponent({
   name: 'FormularioCadTarefa',
@@ -44,14 +47,25 @@ export default defineComponent({
     return {
       descricao: '',
       idProjeto: '',
+      store,
     }
   },
+  mixins: [notificacaoMixin],
   methods: {
     salvarTarefa(tempoDecorrido: number): void {
+      const projeto = this.projetos.find((proj: { id: string }) => proj.id === this.idProjeto)
+      if (!projeto) {
+        this.notificar(
+          TipoNotificacao.FALHA,
+          'Ops!',
+          'Selecione um projeto antes de finalizar a tarefa!',
+        )
+        return
+      }
       this.$emit('aoSalvarTarefa', {
         duracaoEmSegundos: tempoDecorrido,
         descricao: this.descricao,
-        projeto: this.projetos.find((proj: { id: string }) => proj.id === this.idProjeto),
+        projeto: projeto,
       })
       this.descricao = ''
     },

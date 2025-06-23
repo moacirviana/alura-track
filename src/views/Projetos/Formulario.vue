@@ -13,8 +13,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from '@/store'
-import { ADICIONA_PROJETO, ALTERA_PROJETO, NOTIFICAR } from '@/store/tipo-mutacoes'
+import { ADICIONA_PROJETO, ALTERA_PROJETO } from '@/store/tipo-mutacoes'
 import { TipoNotificacao } from '@/interfaces/INotificacao'
+// import { notificacaoMixin } from '@/mixins/notificar'
+import useNotificador from '@/hooks/notificador'
+
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Projetos',
@@ -29,6 +32,7 @@ export default defineComponent({
       this.nomeDoProjeto = projeto?.nome || ''
     }
   },
+  // mixins: [notificacaoMixin],
   data() {
     return {
       nomeDoProjeto: '',
@@ -45,17 +49,14 @@ export default defineComponent({
         this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)
       }
       this.nomeDoProjeto = ''
-      this.store.commit(NOTIFICAR, {
-        titulo: 'Novo projeto foi salvo',
-        texto: 'Projeto salvo com sucesso!',
-        tipo: TipoNotificacao.SUCESSO,
-      })
+      this.notificar(TipoNotificacao.SUCESSO, 'Projeto salvo', 'Projeto foi salvo com sucesso!')
       this.$router.push('/projetos')
     },
   },
   setup() {
     const store = useStore()
-    return { store }
+    const { notificar } = useNotificador()
+    return { store, notificar }
   },
 })
 </script>
