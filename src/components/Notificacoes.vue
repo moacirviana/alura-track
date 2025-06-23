@@ -20,6 +20,7 @@ import { useStore } from '@/store'
 import { TipoNotificacao } from '@/interfaces/INotificacao'
 
 export default defineComponent({
+  // eslint-disable-next-line vue/multi-word-component-names
   name: 'Notificacoes',
   data() {
     return {
@@ -45,6 +46,6 @@ export default defineComponent({
   right: 0;
   width: 300px;
   padding: 8px;
-  z-index: 105;
+  z-index: 1000;
 }
 </style>
