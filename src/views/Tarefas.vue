@@ -9,12 +9,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-import Formulario from '@/components/FormularioCadTarefa.vue'
+import { defineComponent, computed } from 'vue'
 import Tarefa from '@/components/Tarefa.vue'
+import Box from '../components/Box.vue'
+import Formulario from '@/components/FormularioCadTarefa.vue'
 import type ITarefa from '@/interfaces/ITarefa'
-import Box from '@/components/Box.vue'
+import { CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'App',
@@ -23,15 +24,25 @@ export default defineComponent({
     Tarefa,
     Box,
   },
-  data() {
-    return {
-      tarefas: [] as ITarefa[],
-    }
-  },
+
   methods: {
-    salvarTarefa(tarefa: ITarefa) {
-      this.tarefas.push(tarefa)
+    salvarTarefa(tarefa: ITarefa): void {
+      this.store.dispatch(CADASTRAR_TAREFA, tarefa)
     },
+  },
+  computed: {
+    semTarefas(): boolean {
+      return this.tarefas.length == 0
+    },
+  },
+  setup() {
+    const store = useStore()
+    store.dispatch(OBTER_TAREFAS)
+    store.dispatch(OBTER_PROJETOS)
+    return {
+      tarefas: computed(() => store.state.tarefas),
+      store,
+    }
   },
 })
 </script>

@@ -16,5 +16,43 @@
       "id": "4",
       "nome": "NodeJS"
     }
+  ],
+  "tarefas": [
+    {
+      "id": "j841",
+      "duracaoEmSegundos": 120,
+      "descricao": "configuração de ambiente node",
+      "projeto": {
+        "id": "1",
+        "nome": "Alura Tracker"
+      }
+    },
+    {
+      "id": "27eb",
+      "duracaoEmSegundos": 12,
+      "descricao": "REfatoração matemática interlinear",
+      "projeto": {
+        "id": "3",
+        "nome": "VueJS"
+      }
+    },
+    {
+      "id": "e643",
+      "duracaoEmSegundos": 7,
+      "descricao": "Estudando nodejs",
+      "projeto": {
+        "id": "4",
+        "nome": "NodeJS"
+      }
+    },
+    {
+      "id": "87c6",
+      "duracaoEmSegundos": 2,
+      "descricao": "teste teste",
+      "projeto": {
+        "id": "1",
+        "nome": "Alura Tracker"
+      }
+    }
   ]
 }
