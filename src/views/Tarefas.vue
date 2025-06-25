@@ -1,10 +1,41 @@
 <template>
   <Formulario @aoSalvarTarefa="salvarTarefa" />
   <div class="lista">
-    <Tarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" />
+    <Tarefa
+      v-for="(tarefa, index) in tarefas"
+      :key="index"
+      :tarefa="tarefa"
+      @aoTarefaClicada="selecionarTarefa"
+    />
     <Box v-if="tarefas.length === 0">
       <p class="has-text-centered">Você não está muito produtivo hoje</p>
     </Box>
+    <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Editando tarefa</p>
+          <button class="delete" @click="fecharModal" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <label for="descricaoTarefa" class="label"> Descrição da tarefa</label>
+            <input
+              type="text"
+              class="input"
+              v-model="tarefaSelecionada.descricao"
+              id="descricaoTarefa"
+            />
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="buttons">
+            <button @click="alterarTarefa" class="button is-success">Salvar</button>
+            <button @click="fecharModal" class="button">Cancelar</button>
+          </div>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,7 +45,7 @@ import Tarefa from '@/components/Tarefa.vue'
 import Box from '../components/Box.vue'
 import Formulario from '@/components/FormularioCadTarefa.vue'
 import type ITarefa from '@/interfaces/ITarefa'
-import { CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes'
+import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes'
 import { useStore } from '@/store'
 
 export default defineComponent({
@@ -24,10 +55,23 @@ export default defineComponent({
     Tarefa,
     Box,
   },
-
+  data() {
+    return {
+      tarefaSelecionada: null as ITarefa | null,
+    }
+  },
   methods: {
     salvarTarefa(tarefa: ITarefa): void {
       this.store.dispatch(CADASTRAR_TAREFA, tarefa)
+    },
+    selecionarTarefa(tarefa: ITarefa) {
+      this.tarefaSelecionada = tarefa
+    },
+    alterarTarefa() {
+      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada).then(() => this.fecharModal())
+    },
+    fecharModal() {
+      this.tarefaSelecionada = null
     },
   },
   computed: {

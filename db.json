@@ -21,7 +21,7 @@
     {
       "id": "j841",
       "duracaoEmSegundos": 120,
-      "descricao": "configuração de ambiente node",
+      "descricao": "configuração de ambiente nodex",
       "projeto": {
         "id": "1",
         "nome": "Alura Tracker"
@@ -30,7 +30,7 @@
     {
       "id": "27eb",
       "duracaoEmSegundos": 12,
-      "descricao": "REfatoração matemática interlinear",
+      "descricao": "Refatoração matemática interlinear",
       "projeto": {
         "id": "3",
         "nome": "VueJS"
@@ -48,7 +48,7 @@
     {
       "id": "87c6",
       "duracaoEmSegundos": 2,
-      "descricao": "teste teste",
+      "descricao": "teste teste moacir",
       "projeto": {
         "id": "1",
         "nome": "Alura Tracker"

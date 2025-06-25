@@ -2,15 +2,23 @@ import type IProjeto from '@/interfaces/IProjeto'
 import { createStore, Store, useStore as veuexUseStore } from 'vuex'
 import type { InjectionKey } from 'vue'
 import type { INotificacao } from '@/interfaces/INotificacao'
-import { CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS, REMOVER_PROJETO } from './tipo-acoes'
+import {
+  ALTERAR_TAREFA,
+  CADASTRAR_TAREFA,
+  OBTER_PROJETOS,
+  OBTER_TAREFAS,
+  REMOVER_PROJETO,
+} from './tipo-acoes'
 import http from '@/http'
 import {
   ADICIONA_TAREFA,
+  ALTERA_TAREFA,
   DEFINIR_PROJETOS,
   DEFINIR_TAREFAS,
   EXCLUIR_PROJETO,
 } from './tipo-mutacoes'
 import type ITarefa from '@/interfaces/ITarefa'
+import { transform } from 'typescript'
 
 interface Estado {
   projetos: IProjeto[]
@@ -59,6 +67,10 @@ export const store: Store<Estado> = createStore<Estado>({
       console.log('cheguei aqui')
       state.tarefas.push(tarefa)
     },
+    ALTERA_TAREFA(state: Estado, tarefa: ITarefa) {
+      const index = state.tarefas.findIndex((p) => p.id === tarefa.id)
+      state.tarefas[index] = tarefa
+    },
   },
   actions: {
     OBTER_PROJETOS({ commit }) {
@@ -82,6 +94,9 @@ export const store: Store<Estado> = createStore<Estado>({
       return http
         .post('/tarefas', tarefa)
         .then((resposta) => commit(ADICIONA_TAREFA, resposta.data))
+    },
+    ALTERAR_TAREFA({ commit }, tarefa: ITarefa) {
+      return http.put(`/tarefas/${tarefa.id}`, tarefa).then(() => commit(ALTERAR_TAREFA, tarefa))
     },
   },
 })
