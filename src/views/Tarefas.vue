@@ -1,15 +1,26 @@
 <template>
   <Formulario @aoSalvarTarefa="salvarTarefa" />
   <div class="lista">
+    <div class="field">
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="digite para filtrar" v-model="filtro" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </p>
+    </div>
+
     <Tarefa
       v-for="(tarefa, index) in tarefas"
       :key="index"
       :tarefa="tarefa"
       @aoTarefaClicada="selecionarTarefa"
     />
+
     <Box v-if="tarefas.length === 0">
       <p class="has-text-centered">Você não está muito produtivo hoje</p>
     </Box>
+
     <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -40,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import Tarefa from '@/components/Tarefa.vue'
 import Box from '../components/Box.vue'
 import Formulario from '@/components/FormularioCadTarefa.vue'
@@ -67,11 +78,11 @@ export default defineComponent({
     selecionarTarefa(tarefa: ITarefa) {
       this.tarefaSelecionada = tarefa
     },
-    alterarTarefa() {
-      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada).then(() => this.fecharModal())
-    },
     fecharModal() {
       this.tarefaSelecionada = null
+    },
+    alterarTarefa() {
+      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada).then(() => this.fecharModal())
     },
   },
   computed: {
@@ -83,9 +94,15 @@ export default defineComponent({
     const store = useStore()
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
+    const filtro = ref('')
+    const tarefas = computed(() =>
+      store.state.tarefa.tarefas.filter((t) => !filtro.value || t.descricao.includes(filtro.value)),
+    )
+
     return {
-      tarefas: computed(() => store.state.tarefa.tarefas),
+      tarefas,
       store,
+      filtro,
     }
   },
 })

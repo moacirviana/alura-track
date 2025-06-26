@@ -18,7 +18,11 @@
     },
     {
       "id": "6f88",
-      "nome": "trestes"
+      "nome": "trestes eerererewrwe"
+    },
+    {
+      "id": "09da",
+      "nome": "rwerwer"
     }
   ],
   "tarefas": [
@@ -34,7 +38,7 @@
     {
       "id": "27eb",
       "duracaoEmSegundos": 12,
-      "descricao": "Refatoração matemática interlinear xxx",
+      "descricao": "Refatoração matemática interlinear",
       "projeto": {
         "id": "3",
         "nome": "VueJS"
@@ -61,10 +65,19 @@
     {
       "id": "5bb4",
       "duracaoEmSegundos": 2,
-      "descricao": "222222 teste",
+      "descricao": "222222 ",
       "projeto": {
         "id": "4",
         "nome": "NodeJSxx"
+      }
+    },
+    {
+      "id": "21ef",
+      "duracaoEmSegundos": 2,
+      "descricao": "teste dsdsdsd",
+      "projeto": {
+        "id": "4",
+        "nome": "NodeJS"
       }
     }
   ]
