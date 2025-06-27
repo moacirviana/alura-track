@@ -21,32 +21,29 @@
       <p class="has-text-centered">Você não está muito produtivo hoje</p>
     </Box>
 
-    <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Editando tarefa</p>
-          <button class="delete" @click="fecharModal" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-          <div class="field">
-            <label for="descricaoTarefa" class="label"> Descrição da tarefa</label>
-            <input
-              type="text"
-              class="input"
-              v-model="tarefaSelecionada.descricao"
-              id="descricaoTarefa"
-            />
-          </div>
-        </section>
-        <footer class="modal-card-foot">
-          <div class="buttons">
-            <button @click="alterarTarefa" class="button is-success">Salvar</button>
-            <button @click="fecharModal" class="button">Cancelar</button>
-          </div>
-        </footer>
-      </div>
-    </div>
+    <Modal :mostrar="tarefaSelecionada != null">
+      <template v-slot:cabecalho>
+        <p class="modal-card-title">Editando tarefa</p>
+        <button class="delete" @click="fecharModal" aria-label="close"></button>
+      </template>
+      <template v-slot:corpo>
+        <div class="field">
+          <label for="descricaoTarefa" class="label"> Descrição da tarefa</label>
+          <input
+            type="text"
+            class="input"
+            v-model="tarefaSelecionada.descricao"
+            id="descricaoTarefa"
+          />
+        </div>
+      </template>
+      <template v-slot:rodape>
+        <div class="buttons">
+          <button @click="alterarTarefa" class="button is-success">Salvar</button>
+          <button @click="fecharModal" class="button">Cancelar</button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -58,6 +55,7 @@ import Formulario from '@/components/FormularioCadTarefa.vue'
 import type ITarefa from '@/interfaces/ITarefa'
 import { ALTERAR_TAREFA, CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-acoes'
 import { useStore } from '@/store'
+import Modal from '@/components/Modal.vue'
 
 export default defineComponent({
   name: 'App',
@@ -65,6 +63,7 @@ export default defineComponent({
     Formulario,
     Tarefa,
     Box,
+    Modal,
   },
   data() {
     return {
